@@ -10,14 +10,24 @@ h1 {
   font-size: 2.5rem;
 }
 
-h1:hover {
-     color: #e74c3c; 
+.carta {
+  border: 1px solid #2e2c2c;
+  padding: 16px;
+  margin: 8px 0;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+h1:hover {
+  color: #e74c3c;
+}
+
 section {
   margin: 20px 0;
   padding: 16px;
 }
 
-section:first-child { 
-    border-left: 4px solid #2c3e50; 
+section:first-child {
+  border-left: 4px solid #2c3e50;
 }
