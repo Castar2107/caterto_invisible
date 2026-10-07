@@ -2,6 +2,8 @@ import { jest, expect, test } from '@jest/globals';
 import { fireEvent } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 
+import { renderitzarCartes } from './script.js';
+
 test('el botó mostra un alert amb "Hola, món!"', () => {
   document.body.innerHTML = `<button id="btnSaluda">Saluda</button>`;
 
@@ -31,3 +33,19 @@ test('canvia el text i l\'estil del títol', () => {
   expect(titol.style.color).toBe('rgb(44, 62, 80)');
   expect(titol.getAttribute('data-role')).toBe('banner');
 });
+
+test('renderitza les cartes correctament', () => {
+  const cartes = [
+    { id: 1, remitent: 'Maria', contingut: 'Hola!' },
+    { id: 2, remitent: 'Joan', contingut: 'Com estàs?' }
+  ];
+  document.body.innerHTML = `<div id="contenidorCartes"></div>`;
+
+  renderitzarCartes(cartes);
+
+  const cartesElements = document.querySelectorAll('.carta');
+  expect(cartesElements.length).toBe(2);
+  expect(cartesElements[0].querySelector('h3').textContent).toBe('De: Maria');
+  expect(cartesElements[0].querySelector('p').textContent).toBe('Hola!');
+});
+
