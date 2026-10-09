@@ -1,7 +1,17 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
+import json, os
 app = FastAPI()
 
+DATA_FILE = "cartas.json"
+
+
+class Carta(BaseModel):
+    remitent: str
+    destinatari: str
+    contingut: str
+    personatge: str    # per a la IA (de moment pot ser opcional)
+    
 @app.get("/")
 def root():
     return {"missatge": "Hola, món!"}
@@ -36,17 +46,36 @@ def llistar_cartes(limit: int = 3, offset: int = 3):
     ]
     return cartes[offset:offset+limit]
 
-class Carta(BaseModel):
-    remitent: str
-    destinatari: str
-    contingut: str
-    personatge: str    # per a la IA (de moment pot ser opcional)
+def cargar_cartes():
+    """Llegeix les cartes del fitxer. Si no existeix, torna una llista buida."""
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
 
-cartes = []
+def guardar_cartes(cartes):
+    """Escriu les cartes al fitxer."""
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(cartes, f, indent=2, ensure_ascii=False)
+
+cartes = cargar_cartes()  # Carrega les cartes al iniciar l'aplicació
 
 @app.post("/cartas")
 def crear_carta(carta: Carta):
     nova_carta = carta.dict()          # converteix el model a diccionari
     nova_carta["id"] = len(cartes) + 1  # assigna un ID únic
     cartes.append(nova_carta)
-    return nova_carta
+    guardar_cartes(cartes)  # Guarda les cartes al fitxer
+    return "Carta creada"  # Guarda les cartes al fitxer i retorna la nova carta
+
+@app.delete("/cartas/{id}")
+def eliminar_carta(id: int):
+    global cartes
+    for c in cartes:
+        if c["id"] == id:
+            cartes.remove(c)
+            guardar_cartes(cartes)
+            return {"missatge": "Carta eliminada"}
+    return {"error": "Carta no trobada"}, 404
+
+

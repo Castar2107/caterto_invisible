@@ -23,7 +23,11 @@ function inicialitzar() {
     const info = document.querySelector(".info");
     const mostrarCartes = document.querySelector("#btnMostrarCartes");
     const btnAfegir = document.querySelector("#btnAfegir");
-    // 2. Configurem el títol
+    const form = document.querySelector("#formAfegirCarta");
+    const remitent = document.querySelector("#remitent").value.trim();
+    const destinatari = document.querySelector("#destinatari").value.trim();
+    const contingut = document.querySelector("#contingut").value.trim();
+
     titol.textContent = "📮 El Cartero Invisible – Setmana 2";
     titol.setAttribute("data-role", "banner");
 
@@ -35,18 +39,44 @@ function inicialitzar() {
     mostrarCartes.addEventListener("click", () => {
         renderitzarCartes(cartes);
     });
+    // 5. Evitem que el formulari es recarregui
 
-    btnAfegir.addEventListener("click", () => {
-        const novaCarta = {
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();   // ⭐ atura la recàrrega
+        const remitent = document.querySelector("#remitent").value.trim();
+        const destinatari = document.querySelector("#destinatari").value.trim();
+        const contingut = document.querySelector("#contingut").value.trim();
+        const personatge = document.querySelector("#personatge").value.trim();
+
+        if (!remitent || !destinatari || !contingut || !personatge) {
+            alert("Tots els camps són obligatoris!");
+            return;
+        }
+
+        cartes.push({
             id: cartes.length + 1,
-            remitent: "Carter " + (cartes.length + 1),
-            contingut: "Aquesta carta s'acaba de crear dinàmicament!"
-        };
-        cartes.push(novaCarta);
-        renderitzarCartes(cartes);
+            remitent: remitent,
+            destinatari: destinatari,
+            contingut: contingut,
+            personatge: personatge
+        });
+        form.reset();  // neteja el formulari
+        renderitzarCartes(cartes);  // actualitza la llista de cartes
+    })
+
+
+    // 2. Configurem el títol
+    contenidor.addEventListener("click", (event) => {
+        // Qui ha estat? Si és un botó d'eliminar...
+        if (event.target.classList.contains("btn-eliminar")) {
+            const carta = event.target.closest(".carta");   // troba la carta pare
+            // ...elimina la carta
+            carta.remove();
+            // Elimina la carta del array cartes
+            cartes.splice(cartes.findIndex(c => c.id == carta.querySelector("span").dataset.id), 1);  // elimina del array
+        }
     });
 }
-
 /**
  * Renderitza totes les cartes al contenidor.
  * @param {Array} cartes - Array d'objectes carta a mostrar
@@ -79,6 +109,7 @@ function renderitzarCartes(cartes) {
         contenidor.appendChild(divCarta);
     });
 }
+
 
 //////////////////////////////////////////////////
 //  INICIALITZACIÓ (executa només al navegador) //
