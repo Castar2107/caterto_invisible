@@ -1,0 +1,30 @@
+[
+  {
+    "remitent": "Test",
+    "destinatari": "Test",
+    "contingut": "Test",
+    "personatge": "Test",
+    "id": 3
+  },
+  {
+    "remitent": "Test",
+    "destinatari": "Test",
+    "contingut": "Test",
+    "personatge": "Test",
+    "id": 4
+  },
+  {
+    "remitent": "Test",
+    "destinatari": "Test",
+    "contingut": "Test",
+    "personatge": "Test",
+    "id": 4
+  },
+  {
+    "remitent": "Test",
+    "destinatari": "Test",
+    "contingut": "Test",
+    "personatge": "Test",
+    "id": 5
+  }
+]

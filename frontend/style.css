@@ -1,5 +1,14 @@
+:root {
+  --color-principal: #481b05;
+  --color-secundari: #e3ba15;
+  --color-fons: #f6f39c;
+  --color-text: #333;
+  --color-carta: #b0aaaa;
+
+}
+
 body {
-  background-color: #f4f1ea;
+  background-color: var(--color-fons);
   font-family: 'Segoe UI', sans-serif;
   margin: 0 auto;
   max-width: 800px;
@@ -15,20 +24,58 @@ h1 {
   font-size: 2.5rem;
 }
 
-.Carta {
+.Carta ::before {
   float: left;
   width: 45%;
   margin: 2, 5%;
-  border: 1px solid #2e2c2c;
+  border: 1px solid;
+  border-color: var(--color-principal);
   padding: 1rem;
   margin: 8px 0;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--color-carta);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contingut-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.taulaCartes {
+  border: 1px solid;
+  border-color: var(--color-principal);
+  position: relative;
+  z-index: 1;
+  display: none;
 }
 
 h1:hover {
   color: #e74c3c;
+}
+
+/* Estils base (mòbil) */
+#contenidorCartes {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* una columna */
+  gap: 16px;
+}
+
+/* Tauleta (a partir de 769px): dues columnes */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #contenidorCartes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Escriptori (a partir de 1025px): tres columnes */
+@media (min-width: 1025px) {
+  #contenidorCartes {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 section {
@@ -40,14 +87,16 @@ section:first-child {
   border-left: 4px solid #2c3e50;
 }
 
-#buzon {
-  img position: fixed;
-  bottom: 20px;
+
+
+#buzon ::after {
+  z-index: 1000;
   right: 20px;
   background: #8B4513;
   color: #fff;
   padding: 16px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 100;
+  bottom: 20px;
+
 }
